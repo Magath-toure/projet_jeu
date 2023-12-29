@@ -1,3 +1,5 @@
+import random
+
 class Hero:
 
     def __init__(self, nom, nombre_point_de_vie, nombre_potions=3, degats=1):
@@ -12,7 +14,7 @@ class Hero:
         
         choix = input(f"\nvoulez-vous attaquer (choix 1) ou vous soigner (choix 2): ")
         if choix == "1":
-            print("\nVous attaquez le monstre")
+            print(f"\nVous attaquez {monstre_attaqué.name}")
             self.attaquer_monstre(monstre_attaqué)
         elif choix == "2":
             print("\nVous utilisez une potion")
@@ -26,17 +28,17 @@ class Hero:
         monstre_attaqué.nombre_point_de_vie -= self.degats
 
         if monstre_attaqué.nombre_point_de_vie > 0:
-            print(f"\nLe monstre a {monstre_attaqué.nombre_point_de_vie} points de vie")
+            print(f"\n{monstre_attaqué.name} - {monstre_attaqué.nombre_point_de_vie} PV")
             # monstre_attaqué.attaque_hero(self)
         else:
-            print("Le monstre est mort")
+            print(f"Le {monstre_attaqué.name} est mort")
             
                 
 
     def utiliser_potion(self):
-        self.nombre_point_de_vie += 1
+        self.nombre_point_de_vie += 2
         self.nombre_potions -= 1
-        print(f"\nIl vous reste {self.nombre_potions} potions et vous avez {self.nombre_point_de_vie} PV")
+        print(f"\n Vous récupérez de la vie - {self.nombre_point_de_vie} PV - {self.nombre_potions} potion(s)")
         
 
     def diademe_recupere(self):
@@ -45,17 +47,16 @@ class Hero:
 
 class Monstre:
     
-    def __init__(self, name: str, nombre_point_de_vie: int, niveau : int, degat_attaque: int):
+    def __init__(self, name: str, nombre_point_de_vie: int, niveau : int):
         
         self.name = name
         self.nombre_point_de_vie = nombre_point_de_vie
         self.niveau = niveau
-        self.degat_attaque = degat_attaque
 
     def attaque_hero(self, hero_attaqué):
 
         if isinstance(hero_attaqué, Hero):
-            hero_attaqué.nombre_point_de_vie -= self.degat_attaque
-            print(f"\nLe monstre vous a attaqué et il vous reste {hero_attaqué.nombre_point_de_vie} PV")
+            hero_attaqué.nombre_point_de_vie -= random.randint(1, self.niveau*2)
+            print(f"\nLe {self.name} vous a attaqué et il vous reste {hero_attaqué.nombre_point_de_vie} PV")
             
         # hero_attaqué.choix_action(self)
